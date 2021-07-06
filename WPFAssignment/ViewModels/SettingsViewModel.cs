@@ -371,8 +371,7 @@ namespace WPFAssignment.ViewModels
             {
                 FinalDataList.Add(DataList.ElementAt(index));
                 index++;
-                //Debug.WriteLine("Hello");
-               // OnPropertyChanged("FinalDataList");
+                
             }
         }
 
