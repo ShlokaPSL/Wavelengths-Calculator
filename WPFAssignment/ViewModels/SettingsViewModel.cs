@@ -357,12 +357,9 @@ namespace WPFAssignment.ViewModels
         public void Timer()
         {
             DispatcherTimer timer = new DispatcherTimer();
-            
-            //timer.Interval = new TimeSpan(0, 0, 1);
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += GetData_Tick;
             timer.Start();
-            //k++;
         }
 
         public void GetData_Tick(object sender, EventArgs e) 
