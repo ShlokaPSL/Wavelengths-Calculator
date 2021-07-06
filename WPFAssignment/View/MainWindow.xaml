@@ -1,0 +1,60 @@
+﻿<Window x:Class="WPFAssignment.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFAssignment"
+        xmlns:vm="clr-namespace:WPFAssignment.ViewModels"
+        mc:Ignorable="d"
+        Title="Window2" Height="450" Width="400">
+    <Window.Resources>
+        <vm:SettingsViewModel x:Key="vm"></vm:SettingsViewModel>
+        <Style TargetType="Button" x:Key="btn">
+            <Setter Property="Width" Value="110"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
+        </Style>
+        
+    </Window.Resources>
+    <Grid DataContext="{Binding Source={StaticResource vm}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        
+        
+        <WrapPanel  Grid.Row="0">
+            <Button Style="{StaticResource btn}" Margin="65 20 25 0" Click="Settings_Click">Settings</Button>
+            <Button Style="{StaticResource btn}" Margin="0 20 65 0" Command="{Binding AcquireCommand}">Acquire Data!</Button>
+        </WrapPanel>
+
+        <DataGrid Name="dg" Grid.Row="1" Height="240" Width="340" ItemsSource="{Binding Path=FinalDataList, UpdateSourceTrigger=PropertyChanged}" Margin="21,34,21,35" AutoGenerateColumns="False">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                    <Setter Property="Width" Value="175"></Setter>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <!--<DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                </Style>
+            </DataGrid.RowStyle>-->
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="160" Header="Well Index" Binding="{Binding Path='WellIndex', UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                <DataGridTextColumn Width="166" Header="Wavelength Values" Binding="{Binding Path='Wavelength', UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        
+        
+        
+        <WrapPanel  Grid.Row="2">
+            <Button Style="{StaticResource btn}" Margin="65 0 25 0">OK</Button>
+            <Button Style="{StaticResource btn}" Margin="0 0 65 0">Cancel</Button>
+        </WrapPanel>
+
+    </Grid>
+
+</Window>
