@@ -25,8 +25,8 @@
         
         
         <WrapPanel  Grid.Row="0">
-            <Button Style="{StaticResource btn}" Margin="65 20 25 0" Click="Settings_Click">Settings</Button>
-            <Button Style="{StaticResource btn}" Margin="0 20 65 0" Command="{Binding AcquireCommand}">Acquire Data!</Button>
+            <Button Name="settings" Style="{StaticResource btn}" Margin="65 20 25 0" Click="Settings_Click">Settings</Button>
+            <Button Name="acquire" Style="{StaticResource btn}" Margin="0 20 65 0" Command="{Binding AcquireCommand}" Click="Acquire_Click">Acquire Data!</Button>
         </WrapPanel>
 
         <DataGrid Name="dg" Grid.Row="1" Height="240" Width="340" ItemsSource="{Binding Path=FinalDataList, UpdateSourceTrigger=PropertyChanged}" Margin="21,34,21,35" AutoGenerateColumns="False">

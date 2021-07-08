@@ -103,7 +103,7 @@ namespace WPFAssignment.Model
                         }
                         else {
                             Int32.TryParse(Lm1.ToString(), out int lm);
-                            if (lm < 200 || lm > 1000) {
+                            if (lm < 199 || lm > 1001) {
                                 result = "Value of Lm1 must be an Integer within the range of 200-1000";
                             }
                         }
@@ -117,7 +117,7 @@ namespace WPFAssignment.Model
                         else
                         {
                             Int32.TryParse(Lm2.ToString(), out int lm);
-                            if (lm < 200 || lm > 1000)
+                            if (lm < 199 || lm > 1001)
                             {
                                 result = "Value of Lm2 must be an Integer within the range of 200-1000";
                             }
@@ -188,40 +188,6 @@ namespace WPFAssignment.Model
                 return result;
             }
         }
-
-        //public int wells_num { get; set; }
-        //public int wavelengths_num { get; set; }
-        //public int lm1 { get; set; }
-        //public int lm2 { get; set; }
-        //public int lm3 { get; set; }
-        //public int lm4 { get; set; }
-        //public int lm5 { get; set; }
-        //public int lm6 { get; set; }
-
-
-        //public void AquireData() {
-
-        //    int wells = SettingsViewModel.Instance.DataModel.Wells_Num;
-        //    int wavelengths = SettingsViewModel.Instance.DataModel.Wavelengths_Num;
-        //    int Lm1 = SettingsViewModel.Instance.DataModel.Lm1;
-        //    int Lm2 = SettingsViewModel.Instance.DataModel.Lm2;
-        //    int Lm3 = SettingsViewModel.Instance.DataModel.Lm3;
-        //    int Lm4 = SettingsViewModel.Instance.DataModel.Lm4;
-        //    int Lm5 = SettingsViewModel.Instance.DataModel.Lm5;
-        //    int Lm6 = SettingsViewModel.Instance.DataModel.Lm6;
-
-        //    int i;
-        //    int size = wells;
-        //    double[] wavs = new double[size];
-
-        //    for (i = 0; i < wells; i++) {
-
-        //        wavs[i] = wells + (Lm1 * 0.1);
-
-        //    }
-
-        //}
-        
 
         public DataModel() {
             wells_num = 96;

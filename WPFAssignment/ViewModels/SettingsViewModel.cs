@@ -21,31 +21,25 @@ namespace WPFAssignment.ViewModels
         private static SettingsViewModel _instance = new SettingsViewModel();
         public static SettingsViewModel Instance { get { return _instance; } }
 
+        public static int clicks = 0;
+        public static int stop = 0;
+
         private DataModel dataModel = new DataModel();
 
         public static List<int> dmlist = new List<int>();
+        
+            //dmlist.Add(DataModel.Lm2);
+            //dmlist.Add(DataModel.Lm3);
+            //dmlist.Add(DataModel.Lm4);
+            //dmlist.Add(DataModel.Lm5);
+            //dmlist.Add(DataModel.Lm6);
 
         public DataModel DataModel
         {
             get { return dataModel; }
             set { dataModel = value; OnPropertyChanged("dataModel"); }
         }
-
-        //public ObservableCollection<Wavelengths> wavelengthList = new ObservableCollection<Wavelengths>();
-
-        //public ObservableCollection<Wavelengths> WavelengthList
-        //{
-        //    get
-        //    {
-        //        return wavelengthList;
-        //    }
-        //    set
-        //    {
-        //        wavelengthList = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
+        
         public int wavelength = 1;
 
         private string selected_wavelength = "1";
@@ -121,7 +115,7 @@ namespace WPFAssignment.ViewModels
             switch (DataModel.Wavelengths_Num)
             {
                 case 1:
-                    if(DataModel.Lm1 > 200 && DataModel.Lm1 < 1000)
+                    if(DataModel.Lm1 > 199 && DataModel.Lm1 < 1001)
                     {
                         result = true;
                     }
@@ -199,8 +193,8 @@ namespace WPFAssignment.ViewModels
         }
 
 
-        private ICommand _AcquireCommand;
-        public ICommand AcquireCommand
+        private  ICommand _AcquireCommand;
+        public  ICommand AcquireCommand
         {
             get
             {
@@ -213,7 +207,6 @@ namespace WPFAssignment.ViewModels
             }
         }
 
-        //public Dictionary<int, string[]> data = new Dictionary<int, string[]>();
 
         public class data : Observable
         {
@@ -264,56 +257,79 @@ namespace WPFAssignment.ViewModels
         }
   
         public static int k = 0;
+        public int wells_no = 96;
+        public int wavelengths = 1;
+        public int[] lmarr = { 0 };
 
-        private void AcquireExecute(object parameter)
+        public void AcquireExecute(object parameter)
         {
-            
-            int wells_no = dmlist.ElementAt(0);
-            int wavelengths = dmlist.ElementAt(1);
-            int[] lmarr = new int[wavelengths];
+            clicks++;
+            //if (clicks == 1)
+            //{
+            //    stop = 0;
+            //    clicks++;
+            //}
 
-            switch (wavelengths) {
-
-                case 1:
-                    lmarr[0] = dmlist.ElementAt(2);
-                break;
-
-                case 2:
-                    lmarr[0] = dmlist.ElementAt(2);
-                    lmarr[1] = dmlist.ElementAt(3);
-                break;
-
-                case 3:
-                    lmarr[0] = dmlist.ElementAt(2);
-                    lmarr[1] = dmlist.ElementAt(3);
-                    lmarr[2] = dmlist.ElementAt(4);
-                break;
-
-                case 4:
-                    lmarr[0] = dmlist.ElementAt(2);
-                    lmarr[1] = dmlist.ElementAt(3);
-                    lmarr[2] = dmlist.ElementAt(4);
-                    lmarr[3] = dmlist.ElementAt(5);
-                break;
-
-                case 5:
-                    lmarr[0] = dmlist.ElementAt(2);
-                    lmarr[1] = dmlist.ElementAt(3);
-                    lmarr[2] = dmlist.ElementAt(4);
-                    lmarr[3] = dmlist.ElementAt(5);
-                    lmarr[4] = dmlist.ElementAt(6);
-                break;
-
-                case 6:
-                    lmarr[0] = dmlist.ElementAt(2);
-                    lmarr[1] = dmlist.ElementAt(3);
-                    lmarr[2] = dmlist.ElementAt(4);
-                    lmarr[3] = dmlist.ElementAt(5);
-                    lmarr[4] = dmlist.ElementAt(6);
-                    lmarr[5] = dmlist.ElementAt(7);
-                break;
-
+            if (clicks == 2)
+            {
+                stop = 1;
+                //stop--;
+                clicks--;
             }
+            
+
+            if (dmlist.Count != 0)
+            {
+                wells_no = dmlist.ElementAt(0);
+                wavelengths = dmlist.ElementAt(1);
+                
+
+                switch (wavelengths)
+                {
+
+                    case 1:
+                        lmarr[0] = dmlist.ElementAt(2);
+                        break;
+
+                    case 2:
+                        lmarr[0] = dmlist.ElementAt(2);
+                        lmarr[1] = dmlist.ElementAt(3);
+                        break;
+
+                    case 3:
+                        lmarr[0] = dmlist.ElementAt(2);
+                        lmarr[1] = dmlist.ElementAt(3);
+                        lmarr[2] = dmlist.ElementAt(4);
+                        break;
+
+                    case 4:
+                        lmarr[0] = dmlist.ElementAt(2);
+                        lmarr[1] = dmlist.ElementAt(3);
+                        lmarr[2] = dmlist.ElementAt(4);
+                        lmarr[3] = dmlist.ElementAt(5);
+                        break;
+
+                    case 5:
+                        lmarr[0] = dmlist.ElementAt(2);
+                        lmarr[1] = dmlist.ElementAt(3);
+                        lmarr[2] = dmlist.ElementAt(4);
+                        lmarr[3] = dmlist.ElementAt(5);
+                        lmarr[4] = dmlist.ElementAt(6);
+                        break;
+
+                    case 6:
+                        lmarr[0] = dmlist.ElementAt(2);
+                        lmarr[1] = dmlist.ElementAt(3);
+                        lmarr[2] = dmlist.ElementAt(4);
+                        lmarr[3] = dmlist.ElementAt(5);
+                        lmarr[4] = dmlist.ElementAt(6);
+                        lmarr[5] = dmlist.ElementAt(7);
+                        break;
+
+                }
+            }
+
+            
 
             int i, j;
             string[] wellsarr = new string[wells_no];
@@ -349,39 +365,89 @@ namespace WPFAssignment.ViewModels
         
             }
 
-            Timer();
+            Timer_Start();
 
         }
 
+        public DispatcherTimer timer = new DispatcherTimer();
 
-        public void Timer()
-        {
-            DispatcherTimer timer = new DispatcherTimer();
+        public void Timer_Start()
+        {    
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += GetData_Tick;
-            timer.Start();
-        }
-
-        public void GetData_Tick(object sender, EventArgs e) 
-        {
-            if (index < dmlist.ElementAt(0))
-            {
-                FinalDataList.Add(DataList.ElementAt(index));
-                index++;
-                
+            if (stop == 0) {
+                timer.Start();
             }
+            if (stop == 1)
+            {
+                timer.Stop();
+                stop = 0;
+            }
+            
         }
 
-        private bool CanAcquireExecute(object Parameter)
+
+        public static int done = 0;
+        public void GetData_Tick(object sender, EventArgs e)
+        {
+                if (index < wells_no)
+                {
+                    FinalDataList.Add(DataList.ElementAt(index));
+                    index++;
+                }
+            
+                if (index == wells_no)
+                {
+                    done = 1;
+                }
+        }
+
+        public bool CanAcquireExecute(object Parameter)
         {
             return true;
         }
 
 
 
-        public SettingsViewModel()
+        private ICommand _SettingsCommand;
+        public ICommand SettingsCommand
+        {
+            get
+            {
+                if (_SettingsCommand == null)
+                {
+                    _SettingsCommand = new RelayCommand(SettingsExecute, canSettingsExecute, false);
+                }
+
+                return _SettingsCommand;
+            }
+        }
+
+
+
+        private void SettingsExecute(object parameter)
         {
             
+        }
+
+        private bool canSettingsExecute(object Parameter)
+        {
+            bool result = true;
+           
+            return result;
+        }
+
+
+        public void InitializeDmlist()
+        {
+            
+        }
+        
+
+
+        public SettingsViewModel()
+        {
+        
         }
 
     }

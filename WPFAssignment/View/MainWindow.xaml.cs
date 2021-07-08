@@ -23,13 +23,13 @@ namespace WPFAssignment.View
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static int clicks = 0;
+
         public MainWindow()
         {
             InitializeComponent();
-    
-        }
 
-        
+        }
 
         public int i = 0;
         public Window1 win1 = new Window1();
@@ -39,33 +39,75 @@ namespace WPFAssignment.View
             win1.Show();
         }
 
-        //private void Acquire_Click(object sender, RoutedEventArgs e)
-        //{
-        //    DispatcherTimer timer = new DispatcherTimer();
-        //    timer.Tick += new EventHandler(RowReveal_Tick);
-        //    timer.Interval = new TimeSpan(0, 0, 5);
-        //    timer.Start();
-        //}
+        private void Acquire_Click(object sender, RoutedEventArgs e)
+        {
+            if (clicks == 0)
+            {
+                settings.IsEnabled = false;
+                acquire.Content = "Stop Acquiring";
+                Timer_Start();
+                clicks++;
+            }
 
-        //public void ShowRow(DataGridRow row)
-        //{
-        //    row.Visibility = Visibility.Visible;
-        //}
+            else if (clicks == 1)
+            {
+                settings.IsEnabled = true;
+                acquire.Content = "Acquire Data!";
+                clicks++;
+            }
 
-        //public static int index = 0;
-        //public void RowReveal_Tick(object sender, EventArgs e)
-        //{
-        //    if (index < dmlist.ElementAt(0))
-        //    {
-        //        //dg.Items.Refresh();
-                
-        //        //var datatype = dg.Items.GetItemAt(0).GetType();
-        //        //var row = dg.Items.GetItemAt(0);
-        //        //string rowstr = row.ToString();
-                
-        //        index++;
-        //    }
-        //}
+            else if (clicks == 2)
+            {
+                MessageBoxResult result = MessageBox.Show("Overwrite Data?", "Confirm", MessageBoxButton.YesNo);
+                //  MessageBox.Show("Overwrite?");
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
 
+                        //  dg.ItemsSource=null;
+
+                        FinalDataList.Clear();
+                      //  dg.Items.Refresh();
+                  //      dg.ItemsSource = ViewModels.SettingsViewModel.FinalDataList;
+                        //ViewModels.SettingsViewModel.AcquireCommand.CanExecute(null);
+                      //  ViewModels.SettingsViewModel.AcquireCommand.Execute(null);
+                       
+                   //     dg.ItemsSource = this.dg.DataContext();
+                        settings.IsEnabled = false;
+                        acquire.Content = "Stop Acquiring";
+                        Timer_Stop();
+                        //clicks++;
+                    break;
+
+                    case MessageBoxResult.No:
+
+                    break;
+                }
+            }
+        }
+
+        public DispatcherTimer timer = new DispatcherTimer();
+
+        public void Timer_Start()
+        {
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += CheckDone_Tick;
+            timer.Start();
+        }
+
+        public void Timer_Stop()
+        {
+            timer.Stop();
+        }
+
+        public void CheckDone_Tick(object sender, EventArgs e)
+        {
+            if (ViewModels.SettingsViewModel.done == 1)
+            {
+                settings.IsEnabled = true;
+                acquire.Content = "Acquire Data!";
+                clicks = 2;
+            }
+        }
     }
 }
