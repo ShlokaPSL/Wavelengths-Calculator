@@ -16,23 +16,15 @@ using WPFAssignment.Model;
 namespace WPFAssignment.ViewModels
 {
 
-    class SettingsViewModel : Observable
+    class ViewModel : Observable
     {
-        private static SettingsViewModel _instance = new SettingsViewModel();
-        public static SettingsViewModel Instance { get { return _instance; } }
-
-        public static int clicks = 0;
-        public static int stop = 0;
-
-        private DataModel dataModel = new DataModel();
-
+        public static int clicks = 0, stop = 0, done = 0, index = 0, restart=0, k = 0;
+        public int wavelength = 1, wells = 96, wells_no, wavelengths;
+        public int[] lmarr = new int[6];
         public static List<int> dmlist = new List<int>();
+        public DispatcherTimer timer = new DispatcherTimer();
         
-            //dmlist.Add(DataModel.Lm2);
-            //dmlist.Add(DataModel.Lm3);
-            //dmlist.Add(DataModel.Lm4);
-            //dmlist.Add(DataModel.Lm5);
-            //dmlist.Add(DataModel.Lm6);
+        private DataModel dataModel = new DataModel();
 
         public DataModel DataModel
         {
@@ -40,10 +32,8 @@ namespace WPFAssignment.ViewModels
             set { dataModel = value; OnPropertyChanged("dataModel"); }
         }
         
-        public int wavelength = 1;
 
         private string selected_wavelength = "1";
-
         public string Selected_Wavelength {
             get
             {
@@ -58,11 +48,8 @@ namespace WPFAssignment.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public int wells = 96;
-
-        private string selected_wells = "96";
-       
+    
+        private string selected_wells = "96";       
         public string Selected_Wells 
         {
             get
@@ -79,6 +66,8 @@ namespace WPFAssignment.ViewModels
             }
         }
 
+
+
         private ICommand _SubmitCommand;
         public ICommand SubmitCommand
         {
@@ -92,8 +81,6 @@ namespace WPFAssignment.ViewModels
                 return _SubmitCommand;
             }
         }
-
-        
 
         private void SubmitExecute(object parameter)
         {
@@ -161,6 +148,7 @@ namespace WPFAssignment.ViewModels
         }
 
 
+
         private ICommand _CancelCommand;
         public ICommand CancelCommand
         {
@@ -191,6 +179,7 @@ namespace WPFAssignment.ViewModels
         {
             return true;
         }
+
 
 
         private  ICommand _AcquireCommand;
@@ -241,8 +230,6 @@ namespace WPFAssignment.ViewModels
             }
         }
 
-        public static int index = 0;
-
         private static ObservableCollection<data> finaldatalist = new ObservableCollection<data>();
 
         public static ObservableCollection<data> FinalDataList
@@ -252,38 +239,42 @@ namespace WPFAssignment.ViewModels
             set
             {
                 finaldatalist = value;
-                //OnPropertyChanged("FinalDataList");
             }
         }
   
-        public static int k = 0;
-        public int wells_no = 96;
-        public int wavelengths = 1;
-        public int[] lmarr = { 0 };
-
+       
         public void AcquireExecute(object parameter)
         {
             clicks++;
-            //if (clicks == 1)
-            //{
-            //    stop = 0;
-            //    clicks++;
-            //}
-
+           
             if (clicks == 2)
             {
                 stop = 1;
-                //stop--;
-                clicks--;
+                done = 0;
             }
-            
 
-            if (dmlist.Count != 0)
+            else if (clicks == 3)
+            {
+                DataList.Clear();
+                FinalDataList.Clear();
+                clicks = 1;
+                stop = 0;
+                index = 0;
+                restart = 1;
+            }
+
+            if (dmlist.Count == 0)
+            {
+                wells_no = 10;
+                wavelengths = 1;
+                lmarr[0] = 200;
+            }
+
+            else if (dmlist.Count != 0)
             {
                 wells_no = dmlist.ElementAt(0);
                 wavelengths = dmlist.ElementAt(1);
                 
-
                 switch (wavelengths)
                 {
 
@@ -325,15 +316,11 @@ namespace WPFAssignment.ViewModels
                         lmarr[4] = dmlist.ElementAt(6);
                         lmarr[5] = dmlist.ElementAt(7);
                         break;
-
                 }
             }
 
-            
-
             int i, j;
-            string[] wellsarr = new string[wells_no];
-            
+            string[] wellsarr = new string[wells_no]; 
 
             for (i = 0; i < wells_no; i++)
             {
@@ -354,59 +341,78 @@ namespace WPFAssignment.ViewModels
 
                     else {
                         wellsarr[i] += numstr;
-                    }
-
-                    
+                    }       
                 }
-
                 dataitem.WellIndex = i + 1;
                 dataitem.Wavelength = wellsarr[i];
                 DataList.Add(dataitem);
-        
             }
 
-            Timer_Start();
+            if (restart == 0)
+            {
+                Generate_Timer(timer);
+            }
 
+            else if (restart == 1)
+            {
+                Debug.Print("Inside");
+                if (stop == 0)
+                {
+                    Timer_Start(timer);
+                }
+                else if (stop == 1)
+                {
+                    Timer_Stop(timer);
+                    stop = 0;
+                }
+            }
         }
 
-        public DispatcherTimer timer = new DispatcherTimer();
-
-        public void Timer_Start()
-        {    
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += GetData_Tick;
-            if (stop == 0) {
-                timer.Start();
-            }
-            if (stop == 1)
+        
+        public void Generate_Timer(DispatcherTimer timer)
+        {
+            
+            if (stop == 0)
             {
-                timer.Stop();
+                Timer_Start(timer);
+            }
+            else if (stop == 1)
+            {
+                Timer_Stop(timer);
                 stop = 0;
             }
-            
         }
 
+        public void Timer_Start(DispatcherTimer timer)
+        {
+            timer.Start();
+        }
+        public void Timer_Stop(DispatcherTimer timer)
+        {
+            timer.Stop();
+        }
 
-        public static int done = 0;
         public void GetData_Tick(object sender, EventArgs e)
         {
-                if (index < wells_no)
-                {
-                    FinalDataList.Add(DataList.ElementAt(index));
-                    index++;
-                }
+            if (index < wells_no)
+            {
+                done = 0;
+                FinalDataList.Add(DataList.ElementAt(index));
+                index++;
+            }
             
-                if (index == wells_no)
-                {
-                    done = 1;
-                }
+            else if (index == wells_no)
+            {
+                done = 1;
+                clicks = 2;
+                DataList.Clear();
+            }
         }
 
         public bool CanAcquireExecute(object Parameter)
         {
             return true;
         }
-
 
 
         private ICommand _SettingsCommand;
@@ -423,8 +429,6 @@ namespace WPFAssignment.ViewModels
             }
         }
 
-
-
         private void SettingsExecute(object parameter)
         {
             
@@ -437,19 +441,11 @@ namespace WPFAssignment.ViewModels
             return result;
         }
 
-
-        public void InitializeDmlist()
+        public ViewModel()
         {
-            
-        }
-        
-
-
-        public SettingsViewModel()
-        {
-        
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += GetData_Tick;
         }
 
     }
-
 }

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Window1" Height="580" Width="400">
     <Window.Resources>
-        <vm:SettingsViewModel x:Key="vm"></vm:SettingsViewModel>
+        <vm:ViewModel x:Key="vm"></vm:ViewModel>
         <Style TargetType="Button" x:Key="btn">
             <Setter Property="Width" Value="110"></Setter>
             <Setter Property="Height" Value="25"></Setter>

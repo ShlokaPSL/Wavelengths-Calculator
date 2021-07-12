@@ -55,12 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\AcquisitionEngine.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Model\Model.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\StartupViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
     <Compile Include="View\Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>

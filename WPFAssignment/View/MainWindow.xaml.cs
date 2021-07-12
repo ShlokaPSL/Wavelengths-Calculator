@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using static WPFAssignment.ViewModels.SettingsViewModel;
+//using static WPFAssignment.ViewModel.ViewModel;
 
 namespace WPFAssignment.View
 {
@@ -24,15 +24,13 @@ namespace WPFAssignment.View
     public partial class MainWindow : Window
     {
         public static int clicks = 0;
+        public int i = 0;
+        public Window1 win1 = new Window1();
 
         public MainWindow()
         {
             InitializeComponent();
-
         }
-
-        public int i = 0;
-        public Window1 win1 = new Window1();
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
@@ -59,24 +57,13 @@ namespace WPFAssignment.View
             else if (clicks == 2)
             {
                 MessageBoxResult result = MessageBox.Show("Overwrite Data?", "Confirm", MessageBoxButton.YesNo);
-                //  MessageBox.Show("Overwrite?");
+               
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-
-                        //  dg.ItemsSource=null;
-
-                        FinalDataList.Clear();
-                      //  dg.Items.Refresh();
-                  //      dg.ItemsSource = ViewModels.SettingsViewModel.FinalDataList;
-                        //ViewModels.SettingsViewModel.AcquireCommand.CanExecute(null);
-                      //  ViewModels.SettingsViewModel.AcquireCommand.Execute(null);
-                       
-                   //     dg.ItemsSource = this.dg.DataContext();
                         settings.IsEnabled = false;
                         acquire.Content = "Stop Acquiring";
-                        Timer_Stop();
-                        //clicks++;
+                        clicks = 1;
                     break;
 
                     case MessageBoxResult.No:
@@ -102,7 +89,7 @@ namespace WPFAssignment.View
 
         public void CheckDone_Tick(object sender, EventArgs e)
         {
-            if (ViewModels.SettingsViewModel.done == 1)
+            if (ViewModels.ViewModel.done == 1)
             {
                 settings.IsEnabled = true;
                 acquire.Content = "Acquire Data!";
