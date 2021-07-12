@@ -89,7 +89,7 @@ namespace WPFAssignment.View
 
         public void CheckDone_Tick(object sender, EventArgs e)
         {
-            if (ViewModels.ViewModel.done == 1)
+            if (Classes.AcquisitionEngine.done == 1)
             {
                 settings.IsEnabled = true;
                 acquire.Content = "Acquire Data!";

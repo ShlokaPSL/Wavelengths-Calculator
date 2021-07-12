@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFAssignment"
         xmlns:vm="clr-namespace:WPFAssignment.ViewModels"
+        xmlns:cls="clr-namespace:WPFAssignment.Classes"
         mc:Ignorable="d"
         Title="Window2" Height="450" Width="400">
     <Window.Resources>
         <vm:ViewModel x:Key="vm"></vm:ViewModel>
+        <cls:AcquisitionEngine x:Key="cls"></cls:AcquisitionEngine>
         <Style TargetType="Button" x:Key="btn">
             <Setter Property="Width" Value="110"></Setter>
             <Setter Property="Height" Value="25"></Setter>
@@ -29,7 +31,7 @@
             <Button Name="acquire" Style="{StaticResource btn}" Margin="0 20 65 0" Command="{Binding AcquireCommand}" Click="Acquire_Click">Acquire Data!</Button>
         </WrapPanel>
 
-        <DataGrid Name="dg" Grid.Row="1" Height="240" Width="340" ItemsSource="{Binding Path=FinalDataList, UpdateSourceTrigger=PropertyChanged}" Margin="21,34,21,35" AutoGenerateColumns="False">
+        <DataGrid Name="dg" Grid.Row="1" Height="240" Width="340" ItemsSource="{Binding Source={StaticResource cls}, Path=FinalDataList, UpdateSourceTrigger=PropertyChanged}" Margin="21,34,21,35" AutoGenerateColumns="False">
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
