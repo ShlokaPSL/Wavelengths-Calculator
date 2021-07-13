@@ -6,14 +6,15 @@
         xmlns:local="clr-namespace:WPFAssignment.View"
         xmlns:vm="clr-namespace:WPFAssignment.ViewModels"
         mc:Ignorable="d"
-        Title="Window1" Height="580" Width="400">
+        Title="Window1" Height="580" Width="400"
+        ResizeMode="NoResize">
     <Window.Resources>
         <vm:ViewModel x:Key="vm"></vm:ViewModel>
         <Style TargetType="Button" x:Key="btn">
             <Setter Property="Width" Value="110"></Setter>
             <Setter Property="Height" Value="25"></Setter>
         </Style>
-        
+
         <Style TargetType="TextBox">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -37,7 +38,7 @@
 
         <StackPanel Grid.Row="1">
             <WrapPanel>
-                <Label Margin="30 0 0 0">Number of Wells: </Label>
+                <Label Margin="30 0 0 0">Number of Wells:</Label>
                 <ComboBox Margin="60 0 40 0" Width="150" SelectedValue="{Binding Selected_Wells, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBoxItem Content="24"></ComboBoxItem>
                     <ComboBoxItem Content="48"></ComboBoxItem>
@@ -57,7 +58,7 @@
                     <ComboBoxItem Content="6" x:Name="six"/>
                 </ComboBox>
             </WrapPanel>
-            
+
             <WrapPanel Margin="0 30 0 0" Name="lm1_wrap">
                 <Label Margin="30 0 0 0" Name="lm1_lab">Lm1:</Label>
                 <TextBox Margin="125 0 0 0" Width="150" x:Name="lm1_txt" 

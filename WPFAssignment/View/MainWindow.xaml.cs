@@ -14,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-//using static WPFAssignment.ViewModel.ViewModel;
 
 namespace WPFAssignment.View
 {
@@ -32,11 +31,13 @@ namespace WPFAssignment.View
             InitializeComponent();
         }
 
+        // Show settings window
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            win1.Show();
+                win1.Show(); 
         }
 
+        // Actions to be taken on clisck of "Acquire Data!" button
         private void Acquire_Click(object sender, RoutedEventArgs e)
         {
             if (clicks == 0)
@@ -72,7 +73,8 @@ namespace WPFAssignment.View
                 }
             }
         }
-
+        
+        // Creating Timer to check if all the data that was calculated has been acquired
         public DispatcherTimer timer = new DispatcherTimer();
 
         public void Timer_Start()

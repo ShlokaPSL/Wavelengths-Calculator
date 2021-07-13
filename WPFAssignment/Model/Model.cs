@@ -9,6 +9,7 @@ using WPFAssignment.ViewModels;
 
 namespace WPFAssignment.Model
 {
+    // Creating a base class that implements INotifyPropertyChanged - can be used throughout application
     public class Observable : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -22,6 +23,8 @@ namespace WPFAssignment.Model
             }
         }
     }
+
+    // Main model of the application
     public class DataModel : Observable, IDataErrorInfo
     {
         private int wells_num;
@@ -80,7 +83,7 @@ namespace WPFAssignment.Model
             set { lm6 = value; OnPropertyChanged("lm6"); }
         }
 
-        // IDataErrorInfo
+        // IDataErrorInfo implementation - for validations in settings dialog
         public string Error
         {
             get
@@ -98,16 +101,19 @@ namespace WPFAssignment.Model
                 switch (PropertyName)
                 {
                     case "Lm1":
-                        if (string.IsNullOrEmpty(Lm1.ToString())) {
+                        if (string.IsNullOrEmpty(Lm1.ToString()))
+                        {
                             result = "Value of Lm1 must be an Integer";
                         }
-                        else {
+                        else
+                        {
                             Int32.TryParse(Lm1.ToString(), out int lm);
-                            if (lm < 199 || lm > 1001) {
+                            if (lm < 199 || lm > 1001)
+                            {
                                 result = "Value of Lm1 must be an Integer within the range of 200-1000";
                             }
                         }
-                    break;
+                        break;
 
                     case "Lm2":
                         if (string.IsNullOrEmpty(Lm2.ToString()))
@@ -122,7 +128,7 @@ namespace WPFAssignment.Model
                                 result = "Value of Lm2 must be an Integer within the range of 200-1000";
                             }
                         }
-                    break;
+                        break;
 
                     case "Lm3":
                         if (string.IsNullOrEmpty(Lm3.ToString()))
@@ -132,12 +138,12 @@ namespace WPFAssignment.Model
                         else
                         {
                             Int32.TryParse(Lm3.ToString(), out int lm);
-                            if (lm < 200 || lm > 1000)
+                            if (lm < 199 || lm > 1001)
                             {
                                 result = "Value of Lm3 must be an Integer within the range of 200-1000";
                             }
                         }
-                    break;
+                        break;
 
                     case "Lm4":
                         if (string.IsNullOrEmpty(Lm4.ToString()))
@@ -147,12 +153,12 @@ namespace WPFAssignment.Model
                         else
                         {
                             Int32.TryParse(Lm4.ToString(), out int lm);
-                            if (lm < 200 || lm > 1000)
+                            if (lm < 199 || lm > 1001)
                             {
                                 result = "Value of Lm4 must be an Integer within the range of 200-1000";
                             }
                         }
-                    break;
+                        break;
 
                     case "Lm5":
                         if (string.IsNullOrEmpty(Lm5.ToString()))
@@ -162,12 +168,12 @@ namespace WPFAssignment.Model
                         else
                         {
                             Int32.TryParse(Lm5.ToString(), out int lm);
-                            if (lm < 200 || lm > 1000)
+                            if (lm < 199 || lm > 1001)
                             {
                                 result = "Value of Lm5 must be an Integer within the range of 200-1000";
                             }
                         }
-                    break;
+                        break;
 
                     case "Lm6":
                         if (string.IsNullOrEmpty(Lm6.ToString()))
@@ -177,19 +183,25 @@ namespace WPFAssignment.Model
                         else
                         {
                             Int32.TryParse(Lm6.ToString(), out int lm);
-                            if (lm < 200 || lm > 1000)
+                            if (lm < 199 || lm > 1001)
                             {
                                 result = "Value of Lm6 must be an Integer within the range of 200-1000";
                             }
                         }
-                    break;
+                        break;
 
+                    default:
+                        result = "Value of Lm must be an Integer within the range of 200-1000";
+                        break;
+                        
                 }
                 return result;
             }
         }
 
-        public DataModel() {
+        // Constructor for the model - populating model instance with default values
+        public DataModel()
+        {
             wells_num = 96;
             wavelengths_num = 1;
             lm1 = 0;
@@ -199,7 +211,5 @@ namespace WPFAssignment.Model
             lm5 = 0;
             lm6 = 0;
         }
-        
     }
-
 }

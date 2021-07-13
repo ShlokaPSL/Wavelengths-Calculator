@@ -25,6 +25,7 @@ namespace WPFAssignment.View
             InitializeComponent();
         }
 
+        // Hide settings dialog upon click of "OK" or "Cancel" buttons
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();

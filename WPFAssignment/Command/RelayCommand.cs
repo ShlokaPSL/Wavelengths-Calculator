@@ -7,17 +7,16 @@ using System.Windows.Input;
 
 namespace WPFAssignment.Command
 {
+    // Generic code for Relay Command Class - implementing ICommand Interface
     class RelayCommand : ICommand
     {
         Action<object> executeAction;
         Func<object, bool> canExecute;
-        bool canExecuteCache;
-
+  
         public RelayCommand(Action<object> executeAction, Func<object, bool> canExecute, bool canExecuteCache)
         {
             this.canExecute = canExecute;
             this.executeAction = executeAction;
-            canExecuteCache = canExecuteCache;
         }
 
         public bool CanExecute(object parameter)

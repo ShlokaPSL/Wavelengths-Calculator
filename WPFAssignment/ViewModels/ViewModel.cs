@@ -1,29 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
+using WPFAssignment.Classes;
 using WPFAssignment.Command;
 using WPFAssignment.Model;
-using WPFAssignment.Classes;
 
 
 namespace WPFAssignment.ViewModels
 {
-
     class ViewModel : Observable
-    { 
+    {
+        // Declaring variables and objects to be used in ViewModel
         public int wavelength = 1, wells = 96;
         public static List<int> dmlist = new List<int>();
         public AcquisitionEngine engine = new AcquisitionEngine();
-        
+
+        // Creating an instance of the Models
         private DataModel dataModel = new DataModel();
 
         public DataModel DataModel
@@ -31,10 +24,11 @@ namespace WPFAssignment.ViewModels
             get { return dataModel; }
             set { dataModel = value; OnPropertyChanged("dataModel"); }
         }
-        
 
+        // Logic for selection of wavelength in settings dialog
         private string selected_wavelength = "1";
-        public string Selected_Wavelength {
+        public string Selected_Wavelength
+        {
             get
             {
                 return selected_wavelength;
@@ -42,15 +36,17 @@ namespace WPFAssignment.ViewModels
 
             set
             {
+                // Since data is acquired as a combobox item - converting it to required integer value
                 selected_wavelength = value.Split(' ').Last();
                 wavelength = Convert.ToInt32(selected_wavelength);
                 DataModel.Wavelengths_Num = wavelength;
                 OnPropertyChanged();
             }
         }
-    
-        private string selected_wells = "96";       
-        public string Selected_Wells 
+
+        // Logic for selection of wells in settings dialog
+        private string selected_wells = "96";
+        public string Selected_Wells
         {
             get
             {
@@ -59,6 +55,7 @@ namespace WPFAssignment.ViewModels
 
             set
             {
+                // Since data is acquired as a combobox item - converting it to required integer value
                 selected_wells = value.Split(' ').Last();
                 wells = Convert.ToInt32(selected_wells);
                 DataModel.Wells_Num = wells;
@@ -67,7 +64,7 @@ namespace WPFAssignment.ViewModels
         }
 
 
-
+        // Submit command - to be fired on click of 'OK' button in settings dialog
         private ICommand _SubmitCommand;
         public ICommand SubmitCommand
         {
@@ -82,6 +79,8 @@ namespace WPFAssignment.ViewModels
             }
         }
 
+        // Actions to be taken on successful execution of SubmitCommand - Add all data user entered 
+        // in settings dialog into a List - so that it can be accessed on the startup dialog screen
         private void SubmitExecute(object parameter)
         {
             dmlist.Add(DataModel.Wells_Num);
@@ -95,6 +94,7 @@ namespace WPFAssignment.ViewModels
             OnPropertyChanged();
         }
 
+        // Conditions to be met for successful execution of Submit Command - Checking validations on fields
         private bool canSubmitExecute(object Parameter)
         {
             bool result = false;
@@ -102,53 +102,53 @@ namespace WPFAssignment.ViewModels
             switch (DataModel.Wavelengths_Num)
             {
                 case 1:
-                    if(DataModel.Lm1 > 199 && DataModel.Lm1 < 1001)
+                    if (DataModel.Lm1 > 199 && DataModel.Lm1 < 1001)
                     {
                         result = true;
                     }
-                break;
+                    break;
 
                 case 2:
-                    if (DataModel.Lm2 > 200 && DataModel.Lm2 < 1000)
+                    if (DataModel.Lm2 > 199 && DataModel.Lm2 < 1001)
                     {
                         result = true;
                     }
-                break;
+                    break;
 
                 case 3:
-                    if (DataModel.Lm3 > 200 && DataModel.Lm3 < 1000)
+                    if (DataModel.Lm3 > 199 && DataModel.Lm3 < 1001)
                     {
                         result = true;
                     }
-                break;
+                    break;
 
                 case 4:
-                    if (DataModel.Lm4 > 200 && DataModel.Lm4 < 1000)
+                    if (DataModel.Lm4 > 199 && DataModel.Lm4 < 1001)
                     {
                         result = true;
                     }
-                break;
+                    break;
 
                 case 5:
-                    if (DataModel.Lm5 > 200 && DataModel.Lm5 < 1000)
+                    if (DataModel.Lm5 > 199 && DataModel.Lm5 < 1001)
                     {
                         result = true;
                     }
-                break;
+                    break;
 
                 case 6:
-                    if (DataModel.Lm6 > 200 && DataModel.Lm6 < 1000)
+                    if (DataModel.Lm6 > 199 && DataModel.Lm6 < 1001)
                     {
                         result = true;
                     }
-                break;
+                    break;
             }
 
             return result;
         }
 
 
-
+        // Cancel command - to be fired on click of 'Cancel' button in settings dialog
         private ICommand _CancelCommand;
         public ICommand CancelCommand
         {
@@ -163,6 +163,8 @@ namespace WPFAssignment.ViewModels
             }
         }
 
+        // Actions to be taken on successful execution of CancelCommand - setting all values to default 
+        // (Resetting values entered by user in settings dialog)
         private void CancelExecute(object parameter)
         {
             selected_wells = "System.Windows.Controls.ComboBoxItem: 96";
@@ -175,14 +177,16 @@ namespace WPFAssignment.ViewModels
             DataModel.Lm6 = 0;
         }
 
+        // Cancel command can always be executed - no specific conditions need to be met
         private bool CanCancelExecute(object Parameter)
         {
             return true;
         }
 
 
-        private  ICommand _AcquireCommand;
-        public  ICommand AcquireCommand
+        // Acquire command - to be fired on click of 'Acquire Data!' button in startup dialog
+        private ICommand _AcquireCommand;
+        public ICommand AcquireCommand
         {
             get
             {
@@ -194,18 +198,22 @@ namespace WPFAssignment.ViewModels
                 return _AcquireCommand;
             }
         }
-        
+
+        // Actions to be taken on successful execution of AcquireCommand - make call to 
+        // appropriate method in Acquisition Engine
         public void AcquireExecute(object parameter)
         {
             engine.AcquireData();
         }
 
+        // Acquire command can always be executed - no specific conditions need to be met
         public bool CanAcquireExecute(object Parameter)
         {
             return true;
         }
 
 
+        // Settings command - to be fired on click of 'Settings' button in startup dialog
         private ICommand _SettingsCommand;
         public ICommand SettingsCommand
         {
@@ -220,22 +228,23 @@ namespace WPFAssignment.ViewModels
             }
         }
 
+        // No specific actions to be taken on successful execution of SettingsCommand 
         private void SettingsExecute(object parameter)
         {
-            
+
         }
 
+        // Settings command can always be executed - no specific conditions need to be met
         private bool canSettingsExecute(object Parameter)
         {
-            bool result = true;
-           
-            return result;
+            return true;
         }
 
+
+        // Constructor for ViewModel
         public ViewModel()
         {
-            
-        }
 
+        }
     }
 }
